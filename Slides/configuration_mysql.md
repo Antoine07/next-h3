@@ -58,6 +58,10 @@ export async function GET() {
 }
 ```
 
+---
+
+## Résumé : lecture depuis MySQL
+
 - le code s'exécute **côté serveur**
 - la base est accessible uniquement ici
 - la page reste totalement découplée
@@ -207,4 +211,4 @@ npm run dev
 
 ## TP
 
-[TP MySQL](https://github.com/Antoine07/nexts-h3/TPs/04_bd.md)
+[TP MySQL](https://github.com/Antoine07/next-h3/blob/main/TPs/04_bd.md)
