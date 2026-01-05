@@ -1,9 +1,9 @@
 export async function GET(request) {
 
   const posts = [
-    { title: "MySQL" },
-    { title: "Next" },
-    { title: "React" }
+    { id: 1, title: "MySQL" },
+    { id: 2, title: "Next" },
+    { id: 3, title: "React" }
   ]
 
   return Response.json({
