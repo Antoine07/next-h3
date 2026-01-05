@@ -12,3 +12,16 @@ const posts  = [
 ]
 
 ```
+
+Remarque 
+
+Pour définir une route d'api de type GET utiliser le code suivant 
+
+```js
+export async function GET(request) {
+    return Response.json({
+      content: "Hello les posts",
+    });
+  }
+
+```
