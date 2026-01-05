@@ -1,0 +1,270 @@
+@import "tailwindcss";
+
+:root {
+  --cda-navy: #10162f;
+  --cda-purple: #3a10e5;
+  --cda-green: #1fdf64;
+
+  /* Sand theme (light) */
+  --cda-page: #f4eee4;
+  --cda-surface: #ffffff;
+  --cda-text: #14121a;
+  --cda-muted: rgba(20, 18, 26, 0.7);
+  --cda-border: #eadfcd;
+  --cda-ring: rgba(58, 16, 229, 0.3);
+
+  --background: var(--cda-page);
+  --foreground: var(--cda-text);
+
+  --layout-max: 1120px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--cda-purple);
+  --color-accent: var(--cda-green);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Arial, "Noto Sans", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cda-page: #0b1022;
+    --cda-surface: #141a33;
+    --cda-text: #f5f7ff;
+    --cda-muted: rgba(245, 247, 255, 0.72);
+    --cda-border: rgba(245, 247, 255, 0.16);
+    --cda-ring: rgba(31, 223, 100, 0.28);
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+@layer base {
+  html,
+  body {
+    height: 100%;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: var(--foreground);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-size: clamp(28px, 3vw, 44px);
+    line-height: 1.1;
+    margin: 0 0 12px;
+  }
+
+  h2 {
+    font-size: clamp(20px, 2.2vw, 30px);
+    line-height: 1.2;
+    margin: 0 0 12px;
+  }
+
+  p {
+    color: var(--cda-muted);
+    line-height: 1.6;
+  }
+
+  a {
+    color: var(--cda-purple);
+    font-weight: 600;
+    text-decoration: none;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  a:focus-visible {
+    outline: 3px solid var(--cda-ring);
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+
+  button {
+    appearance: none;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 12px;
+    padding: 12px 18px;
+    background: var(--cda-purple);
+    color: #ffffff;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 12px 30px rgba(20, 18, 26, 0.16);
+  }
+
+  button:hover {
+    filter: brightness(0.95);
+  }
+
+  button:focus-visible {
+    outline: 3px solid var(--cda-ring);
+    outline-offset: 3px;
+  }
+
+  section {
+    background: var(--cda-surface);
+    border: 1px solid var(--cda-border);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 20px 60px rgba(20, 18, 26, 0.08);
+  }
+
+  article {
+    background: var(--cda-surface);
+    border: 1px solid var(--cda-border);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 20px 60px rgba(20, 18, 26, 0.06);
+  }
+}
+
+@layer components {
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--cda-page) 92%, #fff);
+    border-bottom: 1px solid color-mix(in srgb, var(--cda-border) 70%, #fff);
+  }
+
+  .topbar__inner {
+    max-width: var(--layout-max);
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav__link {
+    color: color-mix(in srgb, var(--cda-text) 78%, #fff);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 8px 10px;
+    border-radius: 10px;
+  }
+
+  .nav__link:hover {
+    background: color-mix(in srgb, var(--cda-border) 40%, #fff);
+    text-decoration: none;
+  }
+
+  .page {
+    min-height: calc(100vh - 54px);
+    padding: clamp(24px, 4vw, 56px) 20px;
+  }
+
+  .page__inner {
+    max-width: var(--layout-max);
+    margin: 0 auto;
+  }
+
+  .hero {
+    display: grid;
+    place-items: center;
+    min-height: calc(100vh - 54px);
+  }
+
+  .center {
+    display: grid;
+    place-items: center;
+  }
+
+  .stack {
+    display: grid;
+    gap: 14px;
+  }
+
+  .hero-card {
+    width: min(860px, 100%);
+    padding: clamp(22px, 4vw, 44px);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--cda-purple) 12%, #fff);
+    color: color-mix(in srgb, var(--cda-purple) 86%, #000);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+  }
+
+  .title {
+    margin: 14px 0 10px;
+    font-size: clamp(28px, 3.3vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  .subtitle {
+    margin: 0;
+    max-width: 60ch;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cda-muted);
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+  }
+}
+
+/* Small overrides for existing Tailwind utility usage in this repo */
+.bg-zinc-50 {
+  background-color: var(--cda-page) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark .bg-black {
+    background-color: var(--cda-navy) !important;
+  }
+}
