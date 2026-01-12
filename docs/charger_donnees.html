@@ -335,6 +335,32 @@ Accès aux données (JSON / MySQL)
     });
   }
 </code></pre>
+<h2 id="gestion-des-exceptions">Gestion des exceptions</h2>
+<pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">GET</span>(<span class="hljs-params">request, { params }</span>) {
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">const</span> { userId } = <span class="hljs-keyword">await</span> params;
+    <span class="hljs-keyword">const</span> user = users.<span class="hljs-title function_">find</span>(<span class="hljs-function">(<span class="hljs-params">u</span>) =&gt;</span> u.<span class="hljs-property">id</span> === userId);
+
+    <span class="hljs-keyword">if</span> (!user) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;USER_NOT_FOUND&quot;</span>);
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">NextResponse</span>.<span class="hljs-title function_">json</span>(user);
+
+  } <span class="hljs-keyword">catch</span> (error) {
+    <span class="hljs-keyword">if</span> (error.<span class="hljs-property">message</span> === <span class="hljs-string">&quot;USER_NOT_FOUND&quot;</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-title class_">NextResponse</span>.<span class="hljs-title function_">json</span>(
+        { <span class="hljs-attr">error</span>: <span class="hljs-string">&quot;Utilisateur non trouvé&quot;</span> },
+        { <span class="hljs-attr">status</span>: <span class="hljs-number">404</span> }
+      );
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">NextResponse</span>.<span class="hljs-title function_">json</span>(
+      { <span class="hljs-attr">error</span>: <span class="hljs-string">&quot;Erreur interne&quot;</span> },
+      { <span class="hljs-attr">status</span>: <span class="hljs-number">500</span> }
+    );
+  }
+}
+</code></pre>
 <h2 id="retour-au-plan">Retour au plan</h2>
 <p><a href="https://antoine07.github.io/nexts-h3">plan</a></p>
 </section>
