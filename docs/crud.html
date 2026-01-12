@@ -105,24 +105,26 @@ lib/
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-paginate="true" data-class="lead" data-theme="default" lang="en-US" class="lead" data-marpit-pagination="6" style="--paginate:true;--class:lead;--theme:default;" data-marpit-pagination-total="12">
 <h2 id="create-post-apiquiz">CREATE (POST /api/quiz)</h2>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-js"><span class="hljs-keyword">import</span> { pool } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@/lib/db&quot;</span>;
-<span class="hljs-keyword">import</span> { handleError } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@/lib/utils&quot;</span>;
 <span class="hljs-keyword">import</span> { <span class="hljs-title class_">NextResponse</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;next/server&quot;</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">POST</span>(<span class="hljs-params">req</span>) {
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">POST</span>(<span class="hljs-params">request</span>) {
   <span class="hljs-keyword">try</span> {
-    <span class="hljs-keyword">const</span> body = <span class="hljs-keyword">await</span> req.<span class="hljs-title function_">json</span>();
+    <span class="hljs-keyword">const</span> body = <span class="hljs-keyword">await</span> request.<span class="hljs-title function_">json</span>();
+    <span class="hljs-keyword">const</span> { title, description } = body;
 
-    <span class="hljs-keyword">const</span> [result] = <span class="hljs-keyword">await</span> pool.<span class="hljs-title function_">execute</span>(
-      <span class="hljs-string">&quot;INSERT INTO quiz (title, content) VALUES (?, ?)&quot;</span>,
-      [body.<span class="hljs-property">title</span>, body.<span class="hljs-property">content</span>]
+    <span class="hljs-keyword">if</span> (!title || !description) {
+      <span class="hljs-keyword">return</span> <span class="hljs-title class_">NextResponse</span>.<span class="hljs-title function_">json</span>( { <span class="hljs-attr">error</span>: <span class="hljs-string">&quot;Invalid payload&quot;</span>}, { <span class="hljs-attr">status</span>: <span class="hljs-number">400</span> } );
+    }
+
+    <span class="hljs-keyword">const</span> [result] = <span class="hljs-keyword">await</span> db.<span class="hljs-title function_">query</span>(
+      <span class="hljs-string">`INSERT INTO quizzes (title, description) VALUES (?, ?)`</span>,
+      [title, description]
     );
 
-    <span class="hljs-keyword">return</span> <span class="hljs-title class_">NextResponse</span>.<span class="hljs-title function_">json</span>(
-      { <span class="hljs-attr">id</span>: result.<span class="hljs-property">insertId</span> },
-      { <span class="hljs-attr">status</span>: <span class="hljs-number">201</span> }
-    );
-  } <span class="hljs-keyword">catch</span> (e) {
-    <span class="hljs-keyword">return</span> <span class="hljs-title function_">handleError</span>(e);
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">NextResponse</span>.<span class="hljs-title function_">json</span>({ <span class="hljs-attr">id</span>: result.<span class="hljs-property">insertId</span> }, { <span class="hljs-attr">status</span>: <span class="hljs-number">201</span> });
+  } <span class="hljs-keyword">catch</span> (error) {
+
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">NextResponse</span>.<span class="hljs-title function_">json</span>({ <span class="hljs-attr">error</span>: <span class="hljs-string">&quot;Internal server error&quot;</span> },{ <span class="hljs-attr">status</span>: <span class="hljs-number">500</span> });
   }
 }
 </code></pre>
