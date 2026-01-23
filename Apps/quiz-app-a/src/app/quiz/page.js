@@ -1,12 +1,13 @@
-import QuizCard from "@/ui/QuizCard";
+import QuizCard from "@/components/QuizCard";
 import Section from "@/components/Section";
 
 export default async function QuizListPage() {
 
-  const quizzes = await fetch("http://localhost:3000/api/quizzes", {
-    cache: "no-store",
-  }).then(r => r.json());
-
+  const res = await fetch(`${process.env.APP_URL}/api/quiz`, {
+    cache: "no-store", // pas de cache
+  });
+  
+  const quizzes = await res.json();
 
   return (
     <Section title="Liste des quiz">
@@ -16,6 +17,8 @@ export default async function QuizListPage() {
           quizId={quiz.id}
           title={quiz.title}
           description={quiz.description}
+          status={quiz.status}
+          score={quiz.score}
         />
       ))}
     </Section>

@@ -5,26 +5,37 @@ export default function RootLayout({
   children,
 }) {
   return (
-    <html lang="en">
+    <html lang="fr">
+      <head>
+        <meta charSet="utf-8" />
+      </head>
       <body>
-        <header className="topbar">
-          <div className="topbar__inner">
-            <Link className="brand" href="/">
-              Quiz App
-            </Link>
-            <nav className="nav" aria-label="Navigation principale">
-              <Link className="nav__link" href="/">
-                Accueil
+        <header className="site-header">
+          <a className="skip-link visually-hidden visually-hidden-focusable" href="#content">
+            Passer au contenu
+          </a>
+
+          <nav className="navbar" aria-label="Navigation principale">
+            <div className="container navbar__inner">
+              <Link className="navbar-brand" href="/">
+                Quiz App
               </Link>
-              <Link className="nav__link" href="/quiz">
-                Tous les quiz
-              </Link>
-            </nav>
-          </div>
+
+              <div className="nav" aria-label="Sections">
+                <Link className="nav__link" href="/">
+                  Accueil
+                </Link>
+                <Link className="nav__link" href="/quiz">
+                  Tous les quiz
+                </Link>
+               
+              </div>
+            </div>
+          </nav>
         </header>
 
-        <main className="page">
-          <div className="page__inner">{children}</div>
+        <main className="page" id="content">
+          <div className="container">{children}</div>
         </main>
       </body>
     </html>

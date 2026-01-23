@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function ButtonLink({ href, label }) {
   return (
-    <Link href={href}>
-      <button>{label}</button>
+    <Link className="button-link" href={href}>
+      {label}
     </Link>
   );
 }
